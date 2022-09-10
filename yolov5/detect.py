@@ -28,8 +28,10 @@ import argparse
 import os
 import sys
 from pathlib import Path
+from time import sleep
 from typing import List
 from observables.cameraDetector import CameraDetector
+from observers.barrel import Barrel
 from observers.observer import Observer
 
 import torch
@@ -280,5 +282,14 @@ if __name__ == "__main__":
     listener = CameraDetector()
     tank = Tank()
     listener.attach(tank)
+
+    barrel = Barrel()
+
+    for i in range(-80, 90):
+        barrel.write_angle(i)
+        sleep(0.05)
+    
+    # barrel.write_angle(-40)
+
     opt = parse_opt()
     main(opt)

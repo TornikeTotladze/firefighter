@@ -53,3 +53,8 @@ class Tank(Observer):
     def update(self, observable: Observable):
         print("davinaxe yleo xoo")
         self.forward(500)
+
+
+# tank = Tank()
+
+# tank.forward(23)

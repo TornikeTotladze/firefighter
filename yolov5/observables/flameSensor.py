@@ -3,16 +3,16 @@ from typing import List
 import RPi.GPIO as GPIO
 import time
 from observable import Observable
-from observer import Observer
-from tank import Tank
+#from observer import Observer
+#from tank import Tank
 
 
 class FlameDetector():
 
-    _observers: List[Observer] = []
+    #_observers: List[Observer] = []
 
     def __init__(self) -> None:
-        self.pin = 21
+        self.pin = 20
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
 
@@ -34,13 +34,14 @@ class FlameDetector():
 
 detector = FlameDetector()
 
-tank = Tank()
+#tank = Tank()
 
-detector.attach(tank)
+#detector.attach(tank)
 
 
 while True:
     time.sleep(1) 
     if detector.check_flame():
-        detector.notify()  
+        print("vnaxe yleo")
+        #detector.notify() 
     
