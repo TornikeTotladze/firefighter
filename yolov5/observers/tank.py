@@ -6,6 +6,7 @@ from observers.observer import Observer
 right_in1_gpio = 18
 right_in2_gpio = 15
 right_en_gpio = 23
+
 left_in1_gpio = 27
 left_in2_gpio = 17
 left_en_gpio = 4

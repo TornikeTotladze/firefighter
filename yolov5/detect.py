@@ -285,11 +285,13 @@ if __name__ == "__main__":
 
     barrel = Barrel()
 
-    for i in range(-80, 90):
-        barrel.write_angle(i)
-        sleep(0.05)
+    # for i in range(-80, 90):
+    #     barrel.write_angle(i)
+    #     sleep(0.05)
     
-    # barrel.write_angle(-40)
+    barrel.write_angle(-40)
+    sleep(0.5)
+    barrel.write_angle(40)
 
     opt = parse_opt()
     main(opt)
