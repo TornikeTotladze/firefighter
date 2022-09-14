@@ -16,16 +16,16 @@
 from asyncio import sleep
 from drivers.movement_drivers.caterpillar_vehicle import CaterpillarVehicle
 from drivers.movement_drivers.vehicle import Vehicle
-from drivers.target_drivers.barrel import Barrel
-from drivers.target_drivers.fire_checker import FireChecker
-from drivers.target_drivers.flame_sensor import FlameSensor
-from drivers.target_drivers.pump import Pump
-from drivers.target_drivers.water_pump import WaterPump
-from drivers.target_drivers.water_tube import WaterTube
+from drivers.targeting_drivers.tube import Tube
+from drivers.targeting_drivers.fire_checker import FireChecker
+from drivers.targeting_drivers.flame_sensor import FlameSensor
+from drivers.targeting_drivers.pump import Pump
+from drivers.targeting_drivers.water_pump import WaterPump
+from drivers.targeting_drivers.water_tube import WaterTube
 from drivers.movement_drivers.obstacle_detector import ObstacleDetector
 from drivers.movement_drivers.sonic_sensor import SonicSensor
 
-barel: Barrel = WaterTube()
+barel: Tube = WaterTube()
 
 barel.write_angle(-60);
 # sleep(1000)

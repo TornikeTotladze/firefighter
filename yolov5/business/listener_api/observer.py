@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from observables.observable import Observable
+from business.listener_api.observable import Observable
 
 
 class Observer(ABC):

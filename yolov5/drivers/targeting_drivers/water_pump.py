@@ -1,7 +1,7 @@
 import time
 import RPi.GPIO as GPIO
 
-from drivers.target_drivers.pump import Pump
+from drivers.targeting_drivers.pump import Pump
 
 
 class WaterPump(Pump):

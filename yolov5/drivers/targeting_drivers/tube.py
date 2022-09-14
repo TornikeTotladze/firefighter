@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Barrel(ABC):
+class Tube(ABC):
 
 	@abstractmethod
 	def write_angle(angle: float) -> None:

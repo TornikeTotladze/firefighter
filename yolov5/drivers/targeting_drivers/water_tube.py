@@ -1,6 +1,6 @@
 import math
 
-from drivers.target_drivers.barrel import Barrel
+from drivers.target_drivers.tube import Tube
 from gpiozero import Servo
 from gpiozero.pins.pigpio import PiGPIOFactory
 
@@ -12,7 +12,7 @@ servo_max_pw = 2/1000
 servo_min_angle = -91
 servo_max_angle = 91
 
-class WaterTube(Barrel):
+class WaterTube(Tube):
 
 	def __init__(self) -> None:
 		self.factory = PiGPIOFactory()

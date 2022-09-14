@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from yolov5.observers.observer import Observer
+from business.listener_api.observer import Observer
+
 
 class Observable(ABC):
 

@@ -1,6 +1,9 @@
-from business.listener_api.observer import Observer
-from business.listener_api.observable import Observable
+from abc import ABC, abstractmethod
+from business.dto.target_dto import TargetDto
 
 
-class Barrel(Observer, Observable):
-	pass
+class Barrel(ABC):
+	
+	@abstractmethod
+	def stand_on_corresponding_angle(targetDto: TargetDto):
+		pass
