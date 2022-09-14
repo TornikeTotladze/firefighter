@@ -63,4 +63,4 @@ right_sonic: ObstacleDetector = Sonic(7, 8)
 left_sonic: ObstacleDetector = Sonic(25, 24)
 
 print("left: " + str(left_sonic.distanceToObstacle()))
-print("right: " + str(right_sonic.distanceToObstacle()))
+# print("right: " + str(right_sonic.distanceToObstacle()))
