@@ -21,7 +21,7 @@ class Caterpillar(Wheel):
         self.p.start(100)
 
 
-    def forward(self, step):
+    def forward(self, step: int):
         t = 0
         GPIO.output(self.in1,GPIO.LOW)
         GPIO.output(self.in2,GPIO.HIGH)
@@ -33,7 +33,7 @@ class Caterpillar(Wheel):
         GPIO.output(self.in2,GPIO.LOW)
 
 
-    def backward(self, step):
+    def backward(self, step: int):
         t = 0
         GPIO.output(self.in1,GPIO.HIGH)
         GPIO.output(self.in2,GPIO.LOW)

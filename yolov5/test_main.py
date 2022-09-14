@@ -23,7 +23,7 @@ from drivers.target_drivers.pump import Pump
 from drivers.target_drivers.water_pump import WaterPump
 from drivers.target_drivers.water_tube import WaterTube
 from drivers.movement_drivers.obstacle_detector import ObstacleDetector
-from drivers.movement_drivers.sonic import Sonic
+from drivers.movement_drivers.sonic_sensor import SonicSensor
 
 barel: Barrel = WaterTube()
 
@@ -59,8 +59,8 @@ sleep(1)
 vehicle.turn_left(900)
 
 
-right_sonic: ObstacleDetector = Sonic(7, 8)
-left_sonic: ObstacleDetector = Sonic(25, 24)
+right_sonic: ObstacleDetector = SonicSensor(7, 8)
+left_sonic: ObstacleDetector = SonicSensor(25, 24)
 
 print("left: " + str(left_sonic.distanceToObstacle()))
-# print("right: " + str(right_sonic.distanceToObstacle()))
+print("right: " + str(right_sonic.distanceToObstacle()))
