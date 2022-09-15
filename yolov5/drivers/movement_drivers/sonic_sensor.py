@@ -6,6 +6,10 @@ from drivers.movement_drivers.obstacle_detector import ObstacleDetector
 
 class SonicSensor(ObstacleDetector):
 
+	trigger: int = None
+	echo: int = None
+
+
 	def __init__(self, trig_pin: int, echo_pin: int) -> None:
 		self.trigger = trig_pin
 		self.echo = echo_pin
