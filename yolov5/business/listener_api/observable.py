@@ -5,25 +5,19 @@ from business.dto.target_dto import TargetDto
 
 class Observable():
 
-	target: TargetDto
-	update_func: None
-	_observers: List[Observer]
-
-
-	def __init__(self, update: None) -> None:
-		self._observers = []
-		self.target = None
-		self.update_func: None = update
+	def __init__(self) -> None:
+		self.__observers = []
+		self.__target = None
 
 	
 	def attach(self, observer: Observer) -> None:
-		self._observers.append(observer)
+		self.__observers.append(observer)
 			
 
 	def detach(self, observer: Observer) -> None:
-		self._observers.remove(observer)
+		self.__observers.remove(observer)
 
 
 	def notify(self) -> None:
-		for observer in self._observers:
+		for observer in self.__observers:
 			observer.update(self)

@@ -14,15 +14,12 @@ servo_max_angle = 91
 
 class WaterTube(Tube):
 
-	_factory: PiGPIOFactory = None
-	_servo: Servo = None
-
 	def __init__(self) -> None:
-		self._factory = PiGPIOFactory()
-		self._servo = Servo(servo_pwm_pin, pin_factory=self._factory, min_pulse_width=servo_min_pw, max_pulse_width=servo_max_pw)
+		self.__factory = PiGPIOFactory()
+		self.__servo = Servo(servo_pwm_pin, pin_factory=self.__factory, min_pulse_width=servo_min_pw, max_pulse_width=servo_max_pw)
 
 
 	def write_angle(self, angle: float) -> None:
 		if angle not in range(servo_min_angle, servo_max_angle):
 			raise ValueError("angle must be in the range(" + str(servo_min_angle) + ", " + str(servo_max_angle) + ")!")
-		self._servo.value = math.sin(math.radians(angle))
+		self.__servo.value = math.sin(math.radians(angle))

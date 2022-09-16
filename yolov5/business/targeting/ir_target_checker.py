@@ -7,8 +7,8 @@ fire_sensor_pi = 20
 class IRTargetChecker(TargetChecker):
 
     def __init__(self) -> None:
-        self.fire_checker: FireChecker = FlameSensor(fire_sensor_pi)
+        self.__fire_checker: FireChecker = FlameSensor(fire_sensor_pi)
 
 
     def target_is_presented(self) -> bool:
-        return self.fire_checker.firePresented()
+        return self.__fire_checker.firePresented()
