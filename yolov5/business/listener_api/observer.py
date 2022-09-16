@@ -5,5 +5,5 @@ from business.listener_api.observable import Observable
 class Observer(ABC):
 
     @abstractmethod
-    def update(self, observable: Observable):
+    def update(self, observable: Observable) -> None:
         pass

@@ -12,5 +12,6 @@ class Tank(Cart):
 
 	def move_to_target(targetDto: TargetDto) -> None:
 		# do something to arive at target
+		print("tank is moving to target: " + TargetDto.name)
 		pass
 

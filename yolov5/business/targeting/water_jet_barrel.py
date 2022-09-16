@@ -15,3 +15,5 @@ class WaterJetBarrel(Barrel):
         angle: float = 12
 
         self.__tube.write_angle(angle)
+
+        print("Waret jet barrel is trying to stand on angle to point target " + targetDto.name)

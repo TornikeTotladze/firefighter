@@ -1,23 +1,31 @@
+from abc import ABC, abstractmethod
 from ast import List
 from business.listener_api.observer import Observer
 from business.dto.target_dto import TargetDto
 
 
-class Observable():
-
-	def __init__(self) -> None:
-		self.__observers = []
-		self.__target = None
-
+class Observable(ABC):
 	
+	@abstractmethod
 	def attach(self, observer: Observer) -> None:
-		self.__observers.append(observer)
+		pass
 			
 
+	@abstractmethod
 	def detach(self, observer: Observer) -> None:
-		self.__observers.remove(observer)
+		pass
 
 
+	@abstractmethod
 	def notify(self) -> None:
-		for observer in self.__observers:
-			observer.update(self)
+		pass
+
+
+	@abstractmethod
+	def get_target_dto(self) -> TargetDto:
+		pass
+
+
+	@abstractmethod
+	def set_target_dto(self, target: TargetDto) -> None:
+		pass

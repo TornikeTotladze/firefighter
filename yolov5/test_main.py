@@ -65,4 +65,32 @@
 # print("left: " + str(left_sonic.distanceToObstacle()))
 # print("right: " + str(right_sonic.distanceToObstacle()))
 
+from business.dto.target_dto import TargetDto
+from business.targeting.target_discoverer import TargetDiscoverer
+from business.listener_api.dual_listener import DualListener
+from drivers.targeting_drivers.water_pump import WaterPump
+from business.movement.cart import Cart
+from business.movement.tank import Tank
+from business.targeting.barrel import Barrel
+from business.targeting.water_jet_barrel import WaterJetBarrel
+from business.extinguishing.fire_extinguisher import FireExtinguisher
+from business.extinguishing.water_jet_fire_extinguisher import WaterJetFireExtinguisher
+from business.dto.fire_dto import FireDto
+
+
+cart: Cart = Tank()
+barrel: Barrel = WaterJetBarrel()
+fire_extinguisher: FireExtinguisher = WaterJetFireExtinguisher(10, 9, 22)
+
+camera = TargetDiscoverer()
+tank = DualListener(cart.move_to_target)
+targeter = DualListener(barrel.stand_on_corresponding_angle)
+
+
+tank.attach(targeter)
+camera.attach(tank)
+
+
+target_dto: TargetDto = FireDto()
+camera.set_target_dto()
 
