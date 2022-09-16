@@ -1,3 +1,4 @@
+from time import sleep
 from business.targeting.barrel import Barrel
 from drivers.targeting_drivers.tube import Tube
 from drivers.targeting_drivers.water_tube import WaterTube
@@ -12,8 +13,10 @@ class WaterJetBarrel(Barrel):
 
     def stand_on_corresponding_angle(self, targetDto: TargetDto) -> None:
         # calculate correct angle
-        angle: float = 12
+        angle: float = 23
 
         self.__tube.write_angle(angle)
 
-        print("Waret jet barrel is trying to stand on angle to point target " + targetDto.name)
+        print("Waret jet barrel is trying to stand on angle to point target " + targetDto.get_name())
+        sleep(0.5)
+        self.__tube.write_angle(-20)

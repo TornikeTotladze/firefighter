@@ -1,6 +1,6 @@
 import math
 
-from drivers.target_drivers.tube import Tube
+from drivers.targeting_drivers.tube import Tube
 from gpiozero import Servo
 from gpiozero.pins.pigpio import PiGPIOFactory
 

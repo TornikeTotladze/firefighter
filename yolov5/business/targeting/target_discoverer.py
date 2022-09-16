@@ -1,5 +1,5 @@
-from business.listener_api.observable import Observable
+from business.listener_api.general_observable import GeneralObservable
 
 
-class TargetDiscoverer(Observable):
+class TargetDiscoverer(GeneralObservable):
     pass

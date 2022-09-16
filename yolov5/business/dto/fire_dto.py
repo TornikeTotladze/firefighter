@@ -5,4 +5,8 @@ class FireDto(TargetDto):
     
 
     def __init__(self, name: str) -> None:
-        self.name = name
+        self.__name = name
+
+
+    def get_name(self) -> str:
+        return self.__name

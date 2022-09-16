@@ -1,18 +1,17 @@
 from abc import ABC, abstractmethod
-from ast import List
-from business.listener_api.observer import Observer
+# from business.listener_api.observer import Observer
 from business.dto.target_dto import TargetDto
 
 
 class Observable(ABC):
 	
 	@abstractmethod
-	def attach(self, observer: Observer) -> None:
+	def attach(self, observer) -> None:
 		pass
 			
 
 	@abstractmethod
-	def detach(self, observer: Observer) -> None:
+	def detach(self, observer) -> None:
 		pass
 
 

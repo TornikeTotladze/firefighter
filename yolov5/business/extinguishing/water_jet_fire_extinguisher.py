@@ -6,9 +6,10 @@ from drivers.targeting_drivers.water_pump import WaterPump
 class WaterJetFireExtinguisher(FireExtinguisher):
 
     def __init__(self) -> None:
-        self._pump: Pump = WaterPump()
+        self._pump: Pump = WaterPump(10, 9, 22)
         pass
 
 
     def extinguish(self, duration_in_ms: int) -> None:
         self._pump.inject(duration_in_ms)
+
