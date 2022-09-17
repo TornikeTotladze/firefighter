@@ -5,5 +5,5 @@ from business.dto.target_dto import TargetDto
 class Barrel(ABC):
 	
 	@abstractmethod
-	def stand_on_corresponding_angle(targetDto: TargetDto):
+	def stand_on_corresponding_angle(target_dto: TargetDto):
 		pass

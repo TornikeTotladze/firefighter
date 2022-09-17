@@ -11,11 +11,19 @@ class Tank(Cart):
 		self.__vehicle: Vehicle = CaterpillarVehicle()
 
 
-	def move_to_target(self, targetDto: TargetDto) -> None:
+	def move_to_target(self, target_dto: TargetDto) -> None:
+		print("tank area: " + str(target_dto.get_area()))
 		# do something to arive at target
-		print("tank is moving to target: " + targetDto.get_name())
-		self.__vehicle.forward(500)
-		sleep(0.5)
-		self.__vehicle.backward(900)
-		pass
+		#self.__stand_on_x(target_dto.get_center_x())
 
+		if (target_dto.get_area() < 5000):
+			if target_dto.get_center_x() > 350:
+				self.__vehicle.turn_right(7)
+			elif target_dto.get_center_x() < 290:
+				self.__vehicle.turn_left(7)
+			else:
+				self.__vehicle.forward(200)
+
+
+	def __stand_on_x(self, center_x: float):
+		pass

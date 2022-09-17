@@ -7,5 +7,5 @@ from business.listener_api.observable import Observable
 class Cart(ABC):
 	
 	@abstractmethod
-	def move_to_target(targetDto: TargetDto) -> None:
+	def move_to_target(target_dto: TargetDto) -> None:
 		pass

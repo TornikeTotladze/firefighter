@@ -30,6 +30,7 @@ import sys
 from pathlib import Path
 from time import sleep
 from typing import List
+from business.listener_api.observable import Observable
 from observables.cameraDetector import CameraDetector
 from observers.barrel import Barrel
 from observers.observer import Observer
@@ -53,17 +54,31 @@ from utils.torch_utils import select_device, time_sync
 from observables.cameraDetector import CameraDetector
 from observers.tank import Tank
 
-c1 = None
-c2 = None
+from business.dto.target_dto import TargetDto
+from business.listener_api.general_observable import GeneralObservable
+from business.listener_api.general_observer import GeneralObserver
+from business.targeting.target_discoverer import TargetDiscoverer
+from business.listener_api.dual_listener import DualListener
+from drivers.targeting_drivers.pump import Pump
+from drivers.targeting_drivers.water_pump import WaterPump
+from business.movement.cart import Cart
+from business.movement.tank import Tank
+from business.targeting.barrel import Barrel
+from business.targeting.water_jet_barrel import WaterJetBarrel
+from business.extinguishing.fire_extinguisher import FireExtinguisher
+from business.extinguishing.water_jet_fire_extinguisher import WaterJetFireExtinguisher
+from business.dto.fire_dto import FireDto
 
-listener: CameraDetector
 
-def attach(input_listener: CameraDetector):
-    listener = input_listener
+camera_listener: Observable
 
-def notify(c1, c2, center_point, probability):
-    print("camera var da vipove!")
-    listener.update(c1, c2, center_point, probability)
+def attach(input_listener: Observable):
+    camera_listener = input_listener
+
+def notify(center_x: float, center_y: float, area: float):
+    target_dto: TargetDto = FireDto(center_x= center_x, center_y= center_y, area= area)
+    camera_listener.set_target_dto(target_dto)
+    camera_listener.notify()
 
 @torch.no_grad()
 def run(
@@ -178,7 +193,7 @@ def run(
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
-                    if conf >= 0.6:
+                    if conf >= 0.5:
                         c1, c2 = (int(xyxy[0]), int(xyxy[1])), (int(xyxy[2]), int(xyxy[3]))
                         center_point = round((c1[0] + c2[0])/2), round((c1[1] + c2[1])/2)
                         circle = cv2.circle(im0, center_point, 5, (0, 255, 0), 2)
@@ -196,7 +211,10 @@ def run(
                             annotator.box_label(xyxy, label, color=colors(c, True))
                         # if save_crop:
                         #     save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                        notify(c1, c2, center_point, conf)
+                        x: float = round((c1[0] + c2[0])/2)
+                        y: float = round((c1[1] + c2[1])/2)
+                        area: float = (c2[0] - c1[0])*(c2[1] - c1[1])
+                        notify(center_x=x, center_y=y, area=area)
             # Stream results
             im0 = annotator.result()
             if view_img:
@@ -279,19 +297,20 @@ def main(opt):
 
 
 if __name__ == "__main__":
-    listener = CameraDetector()
-    tank = Tank()
-    listener.attach(tank)
-
-    barrel = Barrel()
-
-    # for i in range(-80, 90):
-    #     barrel.write_angle(i)
-    #     sleep(0.05)
+    camera_listener = TargetDiscoverer()
     
-    barrel.write_angle(-40)
-    sleep(0.5)
-    barrel.write_angle(40)
+    cart: Cart = Tank()
+    barrel: Barrel = WaterJetBarrel()
+    fire_extinguisher: FireExtinguisher = WaterJetFireExtinguisher()
+
+    tank = DualListener(cart.move_to_target)
+    targeter = DualListener(barrel.stand_on_corresponding_angle)
+    pump = GeneralObserver(fire_extinguisher.extinguish)
+
+
+    targeter.attach(pump)
+    tank.attach(targeter)
+    camera_listener.attach(tank)
 
     opt = parse_opt()
     main(opt)

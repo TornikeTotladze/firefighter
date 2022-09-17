@@ -33,20 +33,20 @@ class CaterpillarVehicle(Vehicle):
 
 
     def turn_right(self, angle: float):
-        coef = 1
+        coef = 4.22
         step = coef * angle
         self.__move(dir1 = self.__right_wheel.backward, dir2 = self.__left_wheel.forward, step = step)
 
 
     def turn_left(self, angle: float):
-        coef = 1
+        coef = 4
         step = coef * angle
         self.__move(dir1 = self.__right_wheel.forward, dir2 = self.__left_wheel.backward, step = step)
 
 
     def __move(self, dir1: None, dir2: None, step: float):
         th1 = threading.Thread(target = dir1, args = (step,))
-        th2 = threading.Thread(target = dir2, args = (step,))
+        th2 = threading.Thread(target = dir2, args = (0.9*step,))
 
         th1.start()
         th2.start()

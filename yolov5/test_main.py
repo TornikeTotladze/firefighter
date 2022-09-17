@@ -65,11 +65,14 @@
 # print("left: " + str(left_sonic.distanceToObstacle()))
 # print("right: " + str(right_sonic.distanceToObstacle()))
 
+from time import sleep
 from business.dto.target_dto import TargetDto
 from business.listener_api.general_observable import GeneralObservable
 from business.listener_api.general_observer import GeneralObserver
 from business.targeting.target_discoverer import TargetDiscoverer
 from business.listener_api.dual_listener import DualListener
+from drivers.movement_drivers.caterpillar_vehicle import CaterpillarVehicle
+from drivers.movement_drivers.vehicle import Vehicle
 from drivers.targeting_drivers.pump import Pump
 from drivers.targeting_drivers.water_pump import WaterPump
 from business.movement.cart import Cart
@@ -81,21 +84,27 @@ from business.extinguishing.water_jet_fire_extinguisher import WaterJetFireExtin
 from business.dto.fire_dto import FireDto
 
 
-cart: Cart = Tank()
-barrel: Barrel = WaterJetBarrel()
-fire_extinguisher: FireExtinguisher = WaterJetFireExtinguisher()
 
-camera = TargetDiscoverer()
-tank = DualListener(cart.move_to_target)
-targeter = DualListener(barrel.stand_on_corresponding_angle)
+car: Vehicle = CaterpillarVehicle()
+car.turn_left(360)
+sleep(1)
+car.turn_right(380)
+# cart: Cart = Tank()
+# barrel: Barrel = WaterJetBarrel()
+# fire_extinguisher: FireExtinguisher = WaterJetFireExtinguisher()
+
+# camera = TargetDiscoverer()
+# tank = DualListener(cart.move_to_target)
+# targeter = DualListener(barrel.stand_on_corresponding_angle)
 # pump = GeneralObserver(fire_extinguisher.extinguish)
 
 
-tank.attach(targeter)
-camera.attach(tank)
+# targeter.attach(pump)
+# tank.attach(targeter)
+# camera.attach(tank)
 
 
-target_dto: TargetDto = FireDto("fire")
-camera.set_target_dto(target_dto)
-camera.notify()
+# target_dto: TargetDto = FireDto("fire")
+# camera.set_target_dto(target_dto)
+# camera.notify()
 
