@@ -20,6 +20,6 @@ class WaterTube(Tube):
 
 
 	def write_angle(self, angle: float) -> None:
-		if angle not in range(servo_min_angle, servo_max_angle):
+		if angle > servo_max_angle or angle < servo_min_angle:
 			raise ValueError("angle must be in the range(" + str(servo_min_angle) + ", " + str(servo_max_angle) + ")!")
 		self.__servo.value = math.sin(math.radians(angle))

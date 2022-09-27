@@ -45,8 +45,8 @@ class CaterpillarVehicle(Vehicle):
 
 
     def __move(self, dir1: None, dir2: None, step: float):
-        th1 = threading.Thread(target = dir1, args = (step,))
-        th2 = threading.Thread(target = dir2, args = (0.9*step,))
+        th1 = threading.Thread(target = dir1, args = (0.9 * step,))
+        th2 = threading.Thread(target = dir2, args = (step,))
 
         th1.start()
         th2.start()

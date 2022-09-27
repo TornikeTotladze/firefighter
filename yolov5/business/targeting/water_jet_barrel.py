@@ -1,3 +1,4 @@
+from math import atan, pi
 from time import sleep
 from business.targeting.barrel import Barrel
 from drivers.targeting_drivers.tube import Tube
@@ -13,15 +14,13 @@ class WaterJetBarrel(Barrel):
 
     def stand_on_corresponding_angle(self, target_dto: TargetDto) -> None:
         # calculate correct angle
-        print("Waret jet barrel area: " + str(target_dto.get_area()))
+        # print("Waret jet barrel area: " + str(target_dto.get_area()))
         if (target_dto.get_area() >= 5000):
             self.__stand_on_y(target_dto.get_center_y())
+            print(target_dto.get_center_y())
 
         
-        
-
-
     def __stand_on_y(self, center_y: float):
-        self.__tube.write_angle(-50)
-        sleep(0.5)
-        self.__tube.write_angle(-20)
+        angle: float = -65 + 180 / pi * atan((260 - center_y) * 0.35 / 640 / 0.28)
+        # print("Barrel angle: " + str(angle))
+        self.__tube.write_angle(angle)

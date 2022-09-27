@@ -82,13 +82,14 @@ from business.targeting.water_jet_barrel import WaterJetBarrel
 from business.extinguishing.fire_extinguisher import FireExtinguisher
 from business.extinguishing.water_jet_fire_extinguisher import WaterJetFireExtinguisher
 from business.dto.fire_dto import FireDto
+from drivers.targeting_drivers.water_tube import WaterTube
 
 
 
-car: Vehicle = CaterpillarVehicle()
-car.turn_left(360)
-sleep(1)
-car.turn_right(380)
+# car: Vehicle = CaterpillarVehicle()
+# car.turn_left(360)
+# sleep(1)
+# car.turn_right(380)
 # cart: Cart = Tank()
 # barrel: Barrel = WaterJetBarrel()
 # fire_extinguisher: FireExtinguisher = WaterJetFireExtinguisher()
@@ -108,3 +109,14 @@ car.turn_right(380)
 # camera.set_target_dto(target_dto)
 # camera.notify()
 
+
+# pump: Pump = WaterPump(10, 9, 22)
+
+# pump.inject(100000)
+
+tube = WaterTube()
+
+tube.write_angle(-45)
+
+
+# fire_extinguisher.extinguish(50000)
