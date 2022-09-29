@@ -16,7 +16,7 @@ right_in2_gpio = 27
 class CaterpillarVehicle(Vehicle):	
     
     def __init__(self) -> None:
-        self.__right_wheel = Caterpillar(en = right_en_gpio, in1 = right_in1_gpio, in2 = right_in2_gpio)
+        self.__right_wheel: Wheel = Caterpillar(en = right_en_gpio, in1 = right_in1_gpio, in2 = right_in2_gpio)
         self.__left_wheel: Wheel = Caterpillar(en = left_en_gpio, in1 = left_in1_gpio, in2 = left_in2_gpio)
 
 

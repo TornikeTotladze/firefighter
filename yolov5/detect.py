@@ -193,28 +193,27 @@ def run(
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
-                    if conf >= 0.5:
-                        c1, c2 = (int(xyxy[0]), int(xyxy[1])), (int(xyxy[2]), int(xyxy[3]))
-                        center_point = round((c1[0] + c2[0])/2), round((c1[1] + c2[1])/2)
-                        circle = cv2.circle(im0, center_point, 5, (0, 255, 0), 2)
-                        text_coord = cv2.putText(im0, str(center_point), center_point, cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 4)
-                        s += f'{str(center_point)} '
-                        if save_txt:  # Write to file
-                            xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                            line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
-                            # with open(f'{txt_path}.txt', 'a') as f:
-                            #     f.write(('%g ' * len(line)).rstrip() % line + '\n')
+                    c1, c2 = (int(xyxy[0]), int(xyxy[1])), (int(xyxy[2]), int(xyxy[3]))
+                    center_point = round((c1[0] + c2[0])/2), round((c1[1] + c2[1])/2)
+                    circle = cv2.circle(im0, center_point, 5, (0, 255, 0), 2)
+                    text_coord = cv2.putText(im0, str(center_point), center_point, cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 4)
+                    s += f'{str(center_point)} '
+                    if save_txt:  # Write to file
+                        xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                        line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
+                        # with open(f'{txt_path}.txt', 'a') as f:
+                        #     f.write(('%g ' * len(line)).rstrip() % line + '\n')
 
-                        if save_img or save_crop or view_img:  # Add bbox to image
-                            c = int(cls)  # integer class
-                            label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
-                            annotator.box_label(xyxy, label, color=colors(c, True))
-                        # if save_crop:
-                        #     save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                        x: float = round((c1[0] + c2[0])/2)
-                        y: float = round((c1[1] + c2[1])/2)
-                        area: float = (c2[0] - c1[0])*(c2[1] - c1[1])
-                        notify(center_x=x, center_y=y, area=area)
+                    if save_img or save_crop or view_img:  # Add bbox to image
+                        c = int(cls)  # integer class
+                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
+                        annotator.box_label(xyxy, label, color=colors(c, True))
+                    # if save_crop:
+                    #     save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
+                    x: float = round((c1[0] + c2[0])/2)
+                    y: float = round((c1[1] + c2[1])/2)
+                    area: float = (c2[0] - c1[0])*(c2[1] - c1[1])
+                    notify(center_x=x, center_y=y, area=area)
             # Stream results
             im0 = annotator.result()
             if view_img:
@@ -245,7 +244,7 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)
-        LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s)')
+        # LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s)')
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
@@ -263,9 +262,9 @@ def parse_opt():
     parser.add_argument('--source', type=str, default=ROOT / '0', help='file/dir/URL/glob, 0 for webcam')
     # parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
-    # parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
+    parser.add_argument('--conf-thres', type=float, default=0.45, help='confidence threshold')
     # parser.add_argument('--iou-thres', type=float, default=0.45, help='NMS IoU threshold')
-    # parser.add_argument('--max-det', type=int, default=1000, help='maximum detections per image')
+    parser.add_argument('--max-det', type=int, default=1, help='maximum detections per image')
     # parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     # parser.add_argument('--view-img', action='store_true', help='show results')
     # parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
