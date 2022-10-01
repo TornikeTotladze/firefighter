@@ -31,6 +31,8 @@ from pathlib import Path
 from time import sleep
 from typing import List
 from business.listener_api.observable import Observable
+from drivers.movement_drivers.caterpillar_vehicle import CaterpillarVehicle
+from drivers.movement_drivers.vehicle import Vehicle
 from observables.cameraDetector import CameraDetector
 from observers.barrel import Barrel
 from observers.observer import Observer
@@ -214,6 +216,9 @@ def run(
                     y: float = round((c1[1] + c2[1])/2)
                     area: float = (c2[0] - c1[0])*(c2[1] - c1[1])
                     notify(center_x=x, center_y=y, area=area)
+            else:
+                cart.rotate()
+
             # Stream results
             im0 = annotator.result()
             if view_img:

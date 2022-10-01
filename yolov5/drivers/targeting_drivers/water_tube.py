@@ -10,7 +10,7 @@ servo_min_pw = 0.9/1000
 servo_max_pw = 2/1000
 
 servo_min_angle = -91
-servo_max_angle = 91
+servo_max_angle = 10
 
 class WaterTube(Tube):
 

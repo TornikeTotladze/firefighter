@@ -1,6 +1,7 @@
 from time import sleep, time
 from business.dto.target_dto import TargetDto
 from business.movement.cart import Cart
+from configuration.constants import OBSTACLE_AVOID_BACK, OBSTACLE_AVOID_DISTANCE, ROTATION_ANGLE_AT_OBSTACLE, ROTATION_ANGLE_STEP, TARGET_AREA_THRESHOLD
 from drivers.movement_drivers.obstacle_detector import ObstacleDetector
 from drivers.movement_drivers.sonic_sensor import SonicSensor
 from drivers.movement_drivers.vehicle import Vehicle
@@ -19,17 +20,22 @@ class Tank(Cart):
 
 
 	def move_to_target(self, target_dto: TargetDto) -> None:
-		print("tank area: " + str(target_dto.get_area()))
-		# do something to arive at target
-		#self.__stand_on_x(target_dto.get_center_x())
-
-		if (target_dto.get_area() < 5000):
-			if target_dto.get_center_x() > 350:
-				self.__vehicle.turn_right(7)
-			elif target_dto.get_center_x() < 290:
-				self.__vehicle.turn_left(7)
+		if (target_dto.get_area() < TARGET_AREA_THRESHOLD):
+			if target_dto.get_center_x() > 370:
+				self.__vehicle.turn_right(ROTATION_ANGLE_STEP)
+			elif target_dto.get_center_x() < 270:
+				self.__vehicle.turn_left(ROTATION_ANGLE_STEP)
 			else:
 				self.__move_forward()
+		else:
+			if target_dto.get_center_x() > 330:
+				self.__vehicle.turn_right(5)
+			elif target_dto.get_center_x() < 310:
+				self.__vehicle.turn_left(5)
+
+
+	def rotate(self) -> None:
+		self.__vehicle.turn_left(ROTATION_ANGLE_STEP)
 
 
 	def __move_forward(self):
@@ -40,23 +46,28 @@ class Tank(Cart):
 		print("right obstcle at: " + str(r))
 		if (l <= MIN_DISTANCE_TO_OBSTACLE or r <= MIN_DISTANCE_TO_OBSTACLE):
 			if (r >= l + MIN_DISTANCE_TO_OBSTACLE):
-				self.__vehicle.turn_right(50)
-				sleep(0.2)
-				self.__vehicle.forward(400)
-				sleep(0.2)
-				self.__vehicle.turn_left(50)
-				sleep(0.2)
-				self.__vehicle.forward(400)
+				self.__vehicle.backward(OBSTACLE_AVOID_BACK)
+				sleep(0.4)
+				self.__vehicle.turn_right(ROTATION_ANGLE_AT_OBSTACLE)
+				sleep(0.4)
+				self.__vehicle.forward(OBSTACLE_AVOID_DISTANCE)
+				sleep(0.4)
+				self.__vehicle.turn_left(2 * ROTATION_ANGLE_AT_OBSTACLE)
+				sleep(0.4)
+				self.__vehicle.forward(OBSTACLE_AVOID_DISTANCE)
+				sleep(0.4)
+				self.__vehicle.turn_right(ROTATION_ANGLE_AT_OBSTACLE)
 			elif (l >= r + MIN_DISTANCE_TO_OBSTACLE):
-				self.__vehicle.turn_left(50)
-				sleep(0.2)
-				self.__vehicle.forward(400)
-				sleep(0.2)
-				self.__vehicle.turn_right(50)
-				sleep(0.2)
-				self.__vehicle.forward(400)
-		# 	else:
-		# 		self.__vehicle.backward(200)
+				self.__vehicle.backward(OBSTACLE_AVOID_BACK)
+				sleep(0.4)
+				self.__vehicle.turn_left(ROTATION_ANGLE_AT_OBSTACLE)
+				sleep(0.4)
+				self.__vehicle.forward(OBSTACLE_AVOID_DISTANCE)
+				sleep(0.4)
+				self.__vehicle.turn_right(2 * ROTATION_ANGLE_AT_OBSTACLE)
+				sleep(0.4)
+				self.__vehicle.forward(OBSTACLE_AVOID_DISTANCE)
+				sleep(0.4)
+				self.__vehicle.turn_left(ROTATION_ANGLE_AT_OBSTACLE)
 		else:
 			self.__vehicle.forward(300)
-		# self.__vehicle.forward(200)

@@ -9,3 +9,8 @@ class Cart(ABC):
 	@abstractmethod
 	def move_to_target(target_dto: TargetDto) -> None:
 		pass
+
+
+	@abstractmethod
+	def rotate(self) -> None:
+		pass

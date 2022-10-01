@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 
-from drivers.target_drivers.fire_checker import FireChecker
+from drivers.targeting_drivers.fire_checker import FireChecker
 
 
 class FlameSensor(FireChecker):
