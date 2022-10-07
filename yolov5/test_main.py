@@ -110,13 +110,13 @@ from drivers.targeting_drivers.water_tube import WaterTube
 # camera.notify()
 
 
-# pump: Pump = WaterPump(10, 9, 22)
+pump: Pump = WaterPump(10, 9, 22)
 
-# pump.inject(100000)
+pump.inject(100000)
 
-tube = WaterTube()
+# tube = WaterTube()
 
-tube.write_angle(-45)
+# tube.write_angle(-45)
 
 
 # fire_extinguisher.extinguish(50000)

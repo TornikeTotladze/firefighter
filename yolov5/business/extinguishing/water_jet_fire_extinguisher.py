@@ -21,5 +21,5 @@ class WaterJetFireExtinguisher(FireExtinguisher):
                 and target_dto.get_area() >= TARGET_AREA_THRESHOLD):
             
             while self.__target_checker.target_is_presented():
-                self.__pump.inject(1000)
+                self.__pump.inject(4000)
 
