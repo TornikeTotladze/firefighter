@@ -28,17 +28,11 @@ import argparse
 import os
 import sys
 from pathlib import Path
-from time import sleep
-from typing import List
-from business.listener_api.observable import Observable
-from drivers.movement_drivers.caterpillar_vehicle import CaterpillarVehicle
-from drivers.movement_drivers.vehicle import Vehicle
-from observables.cameraDetector import CameraDetector
-from observers.barrel import Barrel
-from observers.observer import Observer
 
 import torch
 import torch.backends.cudnn as cudnn
+
+from business.listener_api.observable import Observable
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -47,22 +41,16 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 from models.common import DetectMultiBackend
-from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadStreams
-from utils.general import (LOGGER, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
-                           increment_path, non_max_suppression, print_args, scale_coords, strip_optimizer, xyxy2xywh)
-from utils.plots import Annotator, colors, save_one_box
+from utils.dataloaders import LoadImages, LoadStreams
+from utils.general import (LOGGER, check_img_size, check_imshow, check_requirements, cv2,
+                           non_max_suppression, print_args, scale_coords, strip_optimizer, xyxy2xywh)
+from utils.plots import Annotator, colors
 from utils.torch_utils import select_device, time_sync
 
-from observables.cameraDetector import CameraDetector
-from observers.tank import Tank
-
 from business.dto.target_dto import TargetDto
-from business.listener_api.general_observable import GeneralObservable
 from business.listener_api.general_observer import GeneralObserver
 from business.targeting.target_discoverer import TargetDiscoverer
 from business.listener_api.dual_listener import DualListener
-from drivers.targeting_drivers.pump import Pump
-from drivers.targeting_drivers.water_pump import WaterPump
 from business.movement.cart import Cart
 from business.movement.tank import Tank
 from business.targeting.barrel import Barrel
@@ -71,21 +59,23 @@ from business.extinguishing.fire_extinguisher import FireExtinguisher
 from business.extinguishing.water_jet_fire_extinguisher import WaterJetFireExtinguisher
 from business.dto.fire_dto import FireDto
 
-
 camera_listener: Observable
+
 
 def attach(input_listener: Observable):
     camera_listener = input_listener
 
+
 def notify(center_x: float, center_y: float, area: float):
-    target_dto: TargetDto = FireDto(center_x= center_x, center_y= center_y, area= area)
+    target_dto: TargetDto = FireDto(center_x=center_x, center_y=center_y, area=area)
     camera_listener.set_target_dto(target_dto)
     camera_listener.notify()
 
+
 @torch.no_grad()
 def run(
-        weights=ROOT / 'best.pt',#'yolov5s.pt',  # model.pt path(s)
-        source=ROOT / '0', #data/images',  # file/dir/URL/glob, 0 for webcam
+        weights=ROOT / 'best.pt',  # 'yolov5s.pt',  # model.pt path(s)
+        source=ROOT / '0',  # data/images',  # file/dir/URL/glob, 0 for webcam
         data=ROOT / 'data/coco128.yaml',  # dataset.yaml path
         imgsz=(640, 640),  # inference size (height, width)
         conf_thres=0.25,  # confidence threshold
@@ -112,12 +102,12 @@ def run(
         dnn=False,  # use OpenCV DNN for ONNX inference
 ):
     source = str(source)
-    save_img = False                                   #not nosave and not source.endswith('.txt')  # save inference images
-    
+    save_img = False  # not nosave and not source.endswith('.txt')  # save inference images
+
     # is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
     # is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
 
-    webcam = source.isnumeric() #or source.endswith('.txt') or (is_url and not is_file)
+    webcam = source.isnumeric()  # or source.endswith('.txt') or (is_url and not is_file)
     # if is_url and is_file:
     #     source = check_file(source)  # download
 
@@ -196,9 +186,10 @@ def run(
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     c1, c2 = (int(xyxy[0]), int(xyxy[1])), (int(xyxy[2]), int(xyxy[3]))
-                    center_point = round((c1[0] + c2[0])/2), round((c1[1] + c2[1])/2)
+                    center_point = round((c1[0] + c2[0]) / 2), round((c1[1] + c2[1]) / 2)
                     circle = cv2.circle(im0, center_point, 5, (0, 255, 0), 2)
-                    text_coord = cv2.putText(im0, str(center_point), center_point, cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 4)
+                    text_coord = cv2.putText(im0, str(center_point), center_point, cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0),
+                                             4)
                     s += f'{str(center_point)} '
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -212,9 +203,9 @@ def run(
                         annotator.box_label(xyxy, label, color=colors(c, True))
                     # if save_crop:
                     #     save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                    x: float = round((c1[0] + c2[0])/2)
-                    y: float = round((c1[1] + c2[1])/2)
-                    area: float = (c2[0] - c1[0])*(c2[1] - c1[1])
+                    x: float = round((c1[0] + c2[0]) / 2)
+                    y: float = round((c1[1] + c2[1]) / 2)
+                    area: float = (c2[0] - c1[0]) * (c2[1] - c1[1])
                     notify(center_x=x, center_y=y, area=area)
             else:
                 cart.rotate()
@@ -302,7 +293,7 @@ def main(opt):
 
 if __name__ == "__main__":
     camera_listener = TargetDiscoverer()
-    
+
     cart: Cart = Tank()
     barrel: Barrel = WaterJetBarrel()
     fire_extinguisher: FireExtinguisher = WaterJetFireExtinguisher()
@@ -310,7 +301,6 @@ if __name__ == "__main__":
     tank = DualListener(cart.move_to_target)
     targeter = DualListener(barrel.stand_on_corresponding_angle)
     pump = GeneralObserver(fire_extinguisher.extinguish)
-
 
     targeter.attach(pump)
     tank.attach(targeter)

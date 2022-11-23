@@ -4,5 +4,5 @@ from abc import ABC, abstractmethod
 class ObstacleDetector(ABC):
 
 	@abstractmethod
-	def distanceToObstacle(self) -> float:
+	def distance_to_obstacle(self) -> float:
 		pass

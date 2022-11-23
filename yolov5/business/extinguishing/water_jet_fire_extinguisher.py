@@ -14,12 +14,10 @@ class WaterJetFireExtinguisher(FireExtinguisher):
         self.__target_checker: TargetChecker = IRTargetChecker()
         pass
 
-
     def extinguish(self, target_dto: TargetDto) -> None:
         print("Waret jet extinguisher area: " + str(target_dto.get_area()))
-        if (target_dto.get_center_x() >= 310 and target_dto.get_center_x() <= 330 
+        if (target_dto.get_center_x() >= 310 and target_dto.get_center_x() <= 330
                 and target_dto.get_area() >= TARGET_AREA_THRESHOLD):
-            
+
             while self.__target_checker.target_is_presented():
                 self.__pump.inject(4000)
-
